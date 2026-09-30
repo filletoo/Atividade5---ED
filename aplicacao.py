@@ -43,12 +43,11 @@ def ler_palavras(arquivo):
 
 def executar_ordenacoes_1_grupo(arquivo, tempos):
     pre_processado = arquivo[:-4] + "_pre_processados.txt"
-    tempo_medio = 0
     arq = c_char_p(pre_processado.encode())
 
+    tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.insertion_sort(arq)
-        #print(tempo_medio)
     tempos[arquivo]['insertion_sort'] = tempo_medio/5
     print(f"- insertion_sort executado. Tempo: {tempo_medio/5:.2f}s")
 
@@ -57,7 +56,7 @@ def executar_ordenacoes_1_grupo(arquivo, tempos):
         tempo_medio += algoritmos.selection_sort(arq)
     tempos[arquivo]['selection_sort'] = tempo_medio/5
     print(f"- selection_sort executado. Tempo: {tempo_medio/5:.2f}s")
-
+    
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.bubble_sort(arq)
