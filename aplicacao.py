@@ -14,7 +14,7 @@ algoritmos.selection_sort.restype = c_double
 
 algoritmos.insertion_sort.argtypes = [c_char_p]
 algoritmos.insertion_sort.restype = c_double
-
+'''
 algoritmos.shell_sort.argtypes = [c_char_p]
 algoritmos.shell_sort.restype = c_double
 
@@ -26,7 +26,7 @@ algoritmos.merge_sort.restype = c_double
 
 algoritmos.quick_sort.argtypes = [c_char_p]
 algoritmos.quick_sort.restype = c_double
-
+'''
 ###############################
 
 def pre_processamento(texto):
@@ -50,16 +50,19 @@ def executar_ordenacoes_1_grupo(arquivo, tempos):
         tempo_medio += algoritmos.insertion_sort(arq)
         #print(tempo_medio)
     tempos[arquivo]['insertion_sort'] = tempo_medio/5
-    
+    print(f"- insertion_sort executado. Tempo: {tempo_medio/5:.2f}s")
+
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.selection_sort(arq)
     tempos[arquivo]['selection_sort'] = tempo_medio/5
-    
+    print(f"- selection_sort executado. Tempo: {tempo_medio/5:.2f}s")
+
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.bubble_sort(arq)
     tempos[arquivo]['bubble_sort'] = tempo_medio/5
+    print(f"- bubble_sort executado. Tempo: {tempo_medio/5:.2f}s")
     
 def executar_ordenacoes_2_grupo(arquivo, tempos):
     pre_processado = arquivo[:-4] + "_pre_processados.txt"
@@ -69,21 +72,25 @@ def executar_ordenacoes_2_grupo(arquivo, tempos):
     for _ in range(5):
         tempo_medio += algoritmos.shell_sort(arq)
     tempos[arquivo]['shell_sort'] = tempo_medio/5
+    print(f"- shell_sort executado. Tempo: {tempo_medio/5:.2f}ms")
 
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.heap_sort(arq)
     tempos[arquivo]['heap_sort'] = tempo_medio/5
+    print(f"- heap_sort executado. Tempo: {tempo_medio/5:.2f}ms")
 
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.merge_sort(arq)
     tempos[arquivo]['merge_sort'] = tempo_medio/5
+    print(f"- merge_sort executado. Tempo: {tempo_medio/5:.2f}ms")
 
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.quick_sort(arq)
     tempos[arquivo]['quick_sort'] = tempo_medio/5
+    print(f"- quick_sort executado. Tempo: {tempo_medio/5:.2f}ms")
 
 def gerar_grafico(arquivos, tempos, nomes_funcoes):
     texto_250k = []
@@ -128,7 +135,6 @@ def gerar_grafico_1_grupo(arquivos, tempos, nomes_funcoes):
     plt.legend()
     plt.show()
 
-'''
 def gerar_grafico_2_grupo(arquivos, tempos, nomes_funcoes):
     plt.figure(2)
     gerar_grafico(arquivos, tempos, nomes_funcoes)
@@ -136,7 +142,6 @@ def gerar_grafico_2_grupo(arquivos, tempos, nomes_funcoes):
     plt.title('Algoritmos de complexidade do tipo O(n*logn)')
     plt.legend()
     plt.show()
-'''
 
 if __name__ == '__main__':
 
@@ -147,11 +152,11 @@ if __name__ == '__main__':
 4 - Sair
 ----------------------------------------------
 Opção: '''
-
-    arquivos = ["nomes250k.txt", "nomes500.txt", "nomes1m.txt"]
     #pra poder fazer o exemplo
     #arquivos = ["nomes5k.txt", "nomes10k.txt", "nomes20k.txt"]
-    
+
+    arquivos = ["nomes250k.txt", "nomes500.txt", "nomes1m.txt"]
+
     tempos = {}
     for i in range(3):
         tempos[arquivos[i]] = {}
@@ -180,9 +185,11 @@ Opção: '''
         
         elif opcao == '2' and pre_processamento_feito:
             for i in range(3):
+                print(f"\n{arquivos[i]}:")
                 executar_ordenacoes_1_grupo(arquivos[i], tempos)
                 #executar_ordenacoes_2_grupo(arquivos[i], tempos)
-            print("Algoritmos executados.")
+
+            print("\nAlgoritmos executados.")
             ordenacao_feita = True
 
         elif opcao == '2': 
