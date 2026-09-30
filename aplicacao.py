@@ -5,6 +5,7 @@ import numpy as np
 
 #funcoes em c++
 algoritmos = CDLL("algoritmos.dll", winmode=0)
+
 algoritmos.bubble_sort.argtypes = [c_char_p]
 algoritmos.bubble_sort.restype = c_double
 
@@ -13,6 +14,19 @@ algoritmos.selection_sort.restype = c_double
 
 algoritmos.insertion_sort.argtypes = [c_char_p]
 algoritmos.insertion_sort.restype = c_double
+
+algoritmos.shell_sort.argtypes = [c_char_p]
+algoritmos.shell_sort.restype = c_double
+
+algoritmos.heap_sort.argtypes = [c_char_p]
+algoritmos.heap_sort.restype = c_double
+
+algoritmos.merge_sort.argtypes = [c_char_p]
+algoritmos.merge_sort.restype = c_double
+
+algoritmos.quick_sort.argtypes = [c_char_p]
+algoritmos.quick_sort.restype = c_double
+
 ###############################
 
 def pre_processamento(texto):
