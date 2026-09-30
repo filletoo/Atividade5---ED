@@ -36,17 +36,17 @@ def executar_ordenacoes_1_grupo(arquivo, tempos):
         tempo_medio += algoritmos.insertion_sort(arq)
         #print(tempo_medio)
     tempos[arquivo]['insertion_sort'] = tempo_medio/5
-
+    
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.selection_sort(arq)
     tempos[arquivo]['selection_sort'] = tempo_medio/5
-
+    
     tempo_medio = 0
     for _ in range(5):
         tempo_medio += algoritmos.bubble_sort(arq)
     tempos[arquivo]['bubble_sort'] = tempo_medio/5
-
+    
 def executar_ordenacoes_2_grupo(arquivo, tempos):
     pre_processado = arquivo[:-4] + "_pre_processados.txt"
     arq = c_char_p(pre_processado.encode())
@@ -116,6 +116,7 @@ def gerar_grafico_1_grupo(arquivos, tempos, nomes_funcoes):
 
 '''
 def gerar_grafico_2_grupo(arquivos, tempos, nomes_funcoes):
+    plt.figure(2)
     gerar_grafico(arquivos, tempos, nomes_funcoes)
     plt.ylabel('Tempo (ms)')
     plt.title('Algoritmos de complexidade do tipo O(n*logn)')
@@ -134,6 +135,9 @@ if __name__ == '__main__':
 Opção: '''
 
     arquivos = ["nomes250k.txt", "nomes500.txt", "nomes1m.txt"]
+    #pra poder fazer o exemplo
+    #arquivos = ["nomes5k.txt", "nomes10k.txt", "nomes20k.txt"]
+    
     tempos = {}
     for i in range(3):
         tempos[arquivos[i]] = {}
@@ -149,10 +153,10 @@ Opção: '''
                 print(f"\n{arquivos[i]}:")
 
                 texto = ler_palavras(arquivos[i])
-                print(f"Quantidade de palavras antes de pré_processar: {len(texto) - 1}")
+                print(f"Quantidade de palavras antes de pré-processar: {len(texto.split('\n')) - 1}")
                 
                 texto_pre_processado = pre_processamento(texto)
-                print(f"Quantidade de palavras depois de pré_processar: {len(texto_pre_processado) - 1}")
+                print(f"Quantidade de palavras depois de pré-processar: {len(texto_pre_processado) - 1}")
                 
                 with open(arquivos[i][:-4] + "_pre_processados.txt", mode="w", encoding="utf-8") as f:
                     for p in texto_pre_processado:
@@ -164,6 +168,7 @@ Opção: '''
             for i in range(3):
                 executar_ordenacoes_1_grupo(arquivos[i], tempos)
                 #executar_ordenacoes_2_grupo(arquivos[i], tempos)
+            print("Algoritmos executados.")
             ordenacao_feita = True
 
         elif opcao == '2': 
