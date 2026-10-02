@@ -130,7 +130,80 @@ extern "C"{
                 }
             }
         }
-        double tempo_de_execucao = double(clock() - inicio) / CLOCKS_PER_SEC;
+        double tempo_de_execucao = (double(clock() - inicio) / CLOCKS_PER_SEC);
+        return tempo_de_execucao;
+    }
+    
+    double shell_sort(char arquivo[])
+    {
+        vector<string> palavras = ler_texto(arquivo);
+        auto inicio = clock();
+        int n = palavras.size();
+        vector<int> gaps = {1, 4, 10, 23, 57, 132, 301, 701, 1577, 3548, 7983, 17961, 40412, 90927, 204586, 460318};
+        // Começa com metade do tamanho do vetor
+        for (int j = gaps.size() - 1; j >= 0; j--)
+        {   
+            int gap = gaps[j];
+            for (int i = gap; i < n; i++)
+            {
+                string temp = palavras[i];
+                int j = i;
+                // Desloca os elementos maiores para a direita
+                while (j >= gap && palavras[j - gap] > temp)
+                {
+                    palavras[j] = palavras[j - gap];
+                    j -= gap;
+                }
+                palavras[j] = temp;
+            }
+        }
+        double tempo_de_execucao = (double(clock() - inicio) / CLOCKS_PER_SEC)*1000;
+        return tempo_de_execucao;
+    }
+
+    double heap_sort(char arquivo[])
+    {
+        vector<string> palavras = ler_texto(arquivo);
+        auto inicio = clock();
+        int n = palavras.size();
+        // Organiza o vetor em um Max-Heap
+        auto heapify = [&](int tamanho, int raiz)
+        {
+            while (true)
+            {
+                int maior = raiz;
+                int esquerda = 2 * raiz + 1;
+                int direita = 2 * raiz + 2;
+                // Verifica se o filho esquerdo é maior
+                if (esquerda < tamanho && palavras[esquerda] > palavras[maior])
+                {
+                    maior = esquerda;
+                }
+                // Verifica se o filho direito é maior
+                if (direita < tamanho && palavras[direita] > palavras[maior])
+                {
+                    maior = direita;
+                }
+                // Se a raiz já for o maior, encerra
+                if (maior == raiz)
+                    break;
+                swap(palavras[raiz], palavras[maior]);
+                // Continua ajustando a subárvore
+                raiz = maior;
+            }
+        };
+        // Constrói o Max-Heap
+        for (int i = n / 2 - 1; i >= 0; i--)
+        {
+            heapify(n, i);
+        }
+        // Extrai o maior elemento e reorganiza o Heap
+        for (int i = n - 1; i > 0; i--)
+        {
+            swap(palavras[0], palavras[i]);
+            heapify(i, 0);
+        }
+        double tempo_de_execucao = (double(clock() - inicio) / CLOCKS_PER_SEC)*1000;
         return tempo_de_execucao;
     }
 }
