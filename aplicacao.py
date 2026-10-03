@@ -20,13 +20,13 @@ algoritmos.shell_sort.restype = c_double
 
 algoritmos.heap_sort.argtypes = [c_char_p]
 algoritmos.heap_sort.restype = c_double
-'''
+
 algoritmos.merge_sort.argtypes = [c_char_p]
 algoritmos.merge_sort.restype = c_double
 
 algoritmos.quick_sort.argtypes = [c_char_p]
 algoritmos.quick_sort.restype = c_double
-'''
+
 ###############################
 
 def pre_processamento(texto):
@@ -90,7 +90,7 @@ def executar_ordenacoes_2_grupo(arquivo, tempos):
     tempo_medio /= quant_exec
     tempos[arquivo]['heap_sort'] = tempo_medio
     print(f"- heap_sort executado. Tempo: {tempo_medio:.2f}ms")
-    '''
+    
     tempo_medio = 0
     for _ in range(quant_exec):
         tempo_medio += algoritmos.merge_sort(arq)
@@ -106,8 +106,7 @@ def executar_ordenacoes_2_grupo(arquivo, tempos):
     tempo_medio /= quant_exec
     tempos[arquivo]['quick_sort'] = tempo_medio
     print(f"- quick_sort executado. Tempo: {tempo_medio:.2f}ms")
-    '''
-
+    
 def gerar_grafico(arquivos, tempos, nomes_funcoes):
     texto_250k = []
     texto_500k = []
@@ -166,9 +165,9 @@ if __name__ == '__main__':
 ----------------------------------------------
 Opção: '''
     #pra poder fazer o exemplo
-    #arquivos = ["nomes5k.txt", "nomes10k.txt", "nomes20k.txt"]
+    arquivos = ["nomes5k.txt", "nomes10k.txt", "nomes20k.txt"]
 
-    arquivos = ["nomes250k.txt", "nomes500.txt", "nomes1m.txt"]
+    #arquivos = ["nomes250k.txt", "nomes500.txt", "nomes1m.txt"]
     
     tempos = {}
     for i in range(3):

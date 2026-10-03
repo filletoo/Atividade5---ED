@@ -206,4 +206,247 @@ extern "C"{
         double tempo_de_execucao = (double(clock() - inicio) / CLOCKS_PER_SEC)*1000;
         return tempo_de_execucao;
     }
+
+    void merge(vector<string> &palavras,
+               int inicio,
+               int meio,
+               int fim)
+    {
+
+        int tamanho_esquerda = meio - inicio + 1;
+        int tamanho_direita = fim - meio;
+
+        vector<string> esquerda(tamanho_esquerda);
+        vector<string> direita(tamanho_direita);
+
+        // Copia os elementos da metade esquerda
+        for (int i = 0; i < tamanho_esquerda; i++)
+        {
+            esquerda[i] = palavras[inicio + i];
+        }
+
+        // Copia os elementos da metade direita
+        for (int i = 0; i < tamanho_direita; i++)
+        {
+            direita[i] = palavras[meio + 1 + i];
+        }
+
+        int i = 0;
+        int j = 0;
+        int k = inicio;
+
+        // Compara os elementos dos dois vetores
+        // e os coloca em ordem no vetor original
+        while (i < tamanho_esquerda &&
+               j < tamanho_direita)
+        {
+
+            if (esquerda[i] <= direita[j])
+            {
+
+                palavras[k] = esquerda[i];
+                i++;
+            }
+            else
+            {
+
+                palavras[k] = direita[j];
+                j++;
+            }
+
+            k++;
+        }
+
+        // Copia os elementos restantes da esquerda
+        while (i < tamanho_esquerda)
+        {
+
+            palavras[k] = esquerda[i];
+
+            i++;
+            k++;
+        }
+
+        // Copia os elementos restantes da direita
+        while (j < tamanho_direita)
+        {
+
+            palavras[k] = direita[j];
+
+            j++;
+            k++;
+        }
+    }
+
+    void merge_sort_recursivo(vector<string> &palavras,
+                              int inicio,
+                              int fim)
+    {
+
+        if (inicio < fim)
+        {
+
+            int meio = inicio + (fim - inicio) / 2;
+
+            // Ordena a metade esquerda
+            merge_sort_recursivo(
+                palavras,
+                inicio,
+                meio);
+
+            // Ordena a metade direita
+            merge_sort_recursivo(
+                palavras,
+                meio + 1,
+                fim);
+
+            // Junta as duas metades
+            merge(
+                palavras,
+                inicio,
+                meio,
+                fim);
+        }
+    }
+
+    double merge_sort(char arquivo[])
+    {
+
+        vector<string> palavras = ler_texto(arquivo);
+
+        auto inicio = clock();
+
+        int n = palavras.size();
+
+        if (n > 1)
+        {
+            merge_sort_recursivo(
+                palavras,
+                0,
+                n - 1);
+        }
+
+        double tempo_de_execucao =
+            (double(clock() - inicio) / CLOCKS_PER_SEC) * 1000;
+
+        return tempo_de_execucao;
+    }
+
+    // QUICK SORT
+
+    int mediana_de_tres(vector<string> &palavras,
+                        int inicio,
+                        int fim)
+    {
+
+        int meio = inicio + (fim - inicio) / 2;
+
+        if (palavras[inicio] > palavras[meio])
+        {
+            swap(palavras[inicio], palavras[meio]);
+        }
+
+        if (palavras[inicio] > palavras[fim])
+        {
+            swap(palavras[inicio], palavras[fim]);
+        }
+
+        if (palavras[meio] > palavras[fim])
+        {
+            swap(palavras[meio], palavras[fim]);
+        }
+
+        // A mediana está agora na posição "meio"
+        return meio;
+    }
+
+    int particionar(vector<string> &palavras,
+                    int inicio,
+                    int fim)
+    {
+
+        // Encontra a mediana entre
+        // primeiro, meio e último
+        int indice_pivo =
+            mediana_de_tres(palavras, inicio, fim);
+
+        swap(palavras[indice_pivo], palavras[fim]);
+
+        string pivo = palavras[fim];
+
+        int i = inicio - 1;
+
+        for (int j = inicio; j < fim; j++)
+        {
+
+            if (palavras[j] <= pivo)
+            {
+
+                i++;
+
+                swap(
+                    palavras[i],
+                    palavras[j]);
+            }
+        }
+
+        // Coloca o pivô em sua posição definitiva.
+        swap(
+            palavras[i + 1],
+            palavras[fim]);
+
+        return i + 1;
+    }
+
+    void quick_sort_recursivo(vector<string> &palavras,
+                              int inicio,
+                              int fim)
+    {
+
+        if (inicio < fim)
+        {
+
+            int posicao_pivo =
+                particionar(
+                    palavras,
+                    inicio,
+                    fim);
+
+            // Ordena os elementos menores que o pivô
+            quick_sort_recursivo(
+                palavras,
+                inicio,
+                posicao_pivo - 1);
+
+            // Ordena os elementos maiores que o pivô
+            quick_sort_recursivo(
+                palavras,
+                posicao_pivo + 1,
+                fim);
+        }
+    }
+
+    double quick_sort(char arquivo[])
+    {
+
+        vector<string> palavras = ler_texto(arquivo);
+
+        auto inicio = clock();
+
+        int n = palavras.size();
+
+        if (n > 1)
+        {
+
+            quick_sort_recursivo(
+                palavras,
+                0,
+                n - 1);
+        }
+
+        double tempo_de_execucao =
+            (double(clock() - inicio) / CLOCKS_PER_SEC) * 1000;
+
+        return tempo_de_execucao;
+    }
 }
